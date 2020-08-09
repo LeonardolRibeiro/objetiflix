@@ -29,8 +29,9 @@ function CadastroCategoria() {
   }
 
   useEffect(() => {
-    console.log('alow alow brasil');
-    const URL = 'http://localhost:8080/categorias';
+    const URL = window.location.hostname.includes('localhost')
+      ? 'http://localhost:8080/categorias'
+      : 'https://objetiflix.herokuapp.com/categorias';
 
     fetch(URL)
       .then(async (respostaDoServidor) => {
@@ -39,25 +40,7 @@ function CadastroCategoria() {
           ...resposta,
         ]);
       });
-
-    // setTimeout(() => {
-    //   setCategorias([...categorias,
-    //     {
-    //       id: 1,
-    //       nome: 'Front End',
-    //       descricao: 'Uma categoria de front end',
-    //       cor: '#cbd1ff',
-    //     },
-    //     {
-    //       id: 2,
-    //       nome: 'Back End',
-    //       descricao: 'Uma categoria de back end',
-    //       cor: '#cbd1ff',
-    //     }]);
-    // }, 4 * 1000);
-  }, [], // Array vazio significa que irá executar apenas uma vez quando carregar o nosso componente
-  // eslint-disable-next-line
-  );
+  }, []);
 
   return (
     <PageDafault>
