@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDafault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
@@ -27,6 +27,38 @@ function CadastroCategoria() {
       infosDoEvento.target.value,
     );
   }
+
+  useEffect(() => {
+    console.log('alow alow brasil');
+    const URL = 'http://localhost:8080/categorias';
+
+    fetch(URL)
+      .then(async (respostaDoServidor) => {
+        const resposta = await respostaDoServidor.json();
+        setCategorias([
+          ...resposta,
+        ]);
+      });
+
+    // setTimeout(() => {
+    //   setCategorias([...categorias,
+    //     {
+    //       id: 1,
+    //       nome: 'Front End',
+    //       descricao: 'Uma categoria de front end',
+    //       cor: '#cbd1ff',
+    //     },
+    //     {
+    //       id: 2,
+    //       nome: 'Back End',
+    //       descricao: 'Uma categoria de back end',
+    //       cor: '#cbd1ff',
+    //     }]);
+    // }, 4 * 1000);
+  }, [], // Array vazio significa que irá executar apenas uma vez quando carregar o nosso componente
+  // eslint-disable-next-line
+  );
+
   return (
     <PageDafault>
       <h1>
@@ -72,6 +104,12 @@ function CadastroCategoria() {
           Cadastrar
         </Button>
       </form>
+
+      {categorias.length === 0 && (
+        <div>
+          Carregando...
+        </div>
+      )}
 
       <ul>
         {categorias.map((categoria) => (
